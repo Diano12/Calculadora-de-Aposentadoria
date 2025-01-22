@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculadora de Investimentos</title>
+    <style>
+        body  {
+        background-image: url('./assets/img/FB_IMG_15570908138398330.jpg');
+        background-size: 1000px 1000px; 
+        background-position: center;
+        background-repeat: no-repeat;
+        background-attachment: fixed;
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+        background-color: #f4f4f4;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        }
+        .container {
+            background: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 400px;
+        }
+                
+        {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        .container {
+            background: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 400px;
+        }
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+        label {
+            display: block;
+            margin: 10px 0 5px;
+            color: #555;
+        }
+        input {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        button {
+            width: 100%;
+            padding: 10px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+        .result {
+            margin-top: 15px;
+            padding: 10px;
+            background: #e7f3e7;
+            border: 1px solid #4CAF50;
+            border-radius: 4px;
+            color: #333;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Calculadora de Investimentos</h1>
+        <label for="idade">Idade Atual:</label>
+        <input type="number" id="idade" placeholder="Digite sua idade atual">
+
+        <label for="aposentadoria">Idade para Aposentadoria:</label>
+        <input type="number" id="aposentadoria" placeholder="Digite a idade desejada para aposentadoria">
+
+        <label for="aporte">Aporte Mensal (R$):</label>
+        <input type="number" id="aporte" placeholder="Digite o valor do aporte mensal">
+
+        <label for="taxa">Taxa de Retorno Anual (%):</label>
+        <input type="number" id="taxa" placeholder="Digite a taxa de retorno anual">
+
+        <button onclick="calcularInvestimento()">Calcular</button>
+
+        <div class="result" id="resultado" style="display: none;"></div>
+    </div>
+
+    <script>
+        function calcularInvestimento() {
+            // Coletar valores do formulário
+            const idade = parseInt(document.getElementById('idade').value);
+            const aposentadoria = parseInt(document.getElementById('aposentadoria').value);
+            const aporte = parseFloat(document.getElementById('aporte').value);
+            const taxa = parseFloat(document.getElementById('taxa').value) / 100;
+
+            // Validar os inputs
+            if (isNaN(idade) || isNaN(aposentadoria) || isNaN(aporte) || isNaN(taxa)) {
+                alert('Por favor, preencha todos os campos corretamente.');
+                return;
+            }
+
+            if (aposentadoria <= idade) {
+                alert('A idade de aposentadoria deve ser maior que a idade atual.');
+                return;
+            }
+
+            // Cálculo do patrimônio final
+            const anos = aposentadoria - idade;
+            let patrimonio = 0;
+
+            for (let i = 0; i < anos; i++) {
+                patrimonio += aporte * 12; // Adiciona os aportes do ano
+                patrimonio *= (1 + taxa); // Aplica a taxa de retorno
+            }
+
+            // Exibir o resultado
+            const resultadoDiv = document.getElementById('resultado');
+            resultadoDiv.style.display = 'block';
+            resultadoDiv.innerHTML = `Com os aportes de <strong>R$ ${aporte.toFixed(2)}</strong> e uma taxa de retorno de <strong>${(taxa * 100).toFixed(2)}%</strong>, você terá acumulado aproximadamente <strong>R$ ${patrimonio.toFixed(2)}</strong> aos ${aposentadoria} anos.`;
+        }
+    </script>
+</body>
+</html>
